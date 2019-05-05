@@ -1,7 +1,8 @@
 import os
 import sys
-from setuptools import find_packages, setup
 from pathlib import Path
+
+from setuptools import find_packages, setup
 
 CURRENT_PYTHON = sys.version_info[:2]
 REQUIRED_PYTHON = (3, 6)
@@ -38,10 +39,7 @@ setup(
     include_package_data=False,
     packages=find_packages(),
     entry_points={'console_scripts': [
-       'heyyou = heyyou.script:main',
+        'heyyou = heyyou.script:main',
     ]},
-    data_files=[
-        (os.path.join(home, '.heyyou/'), ['heyyou/data/mac_vendors.xml']),
-    ],
-    install_requires=['requests', 'scapy'],
+    install_requires=['argparse', 'requests', 'scapy'],
 )

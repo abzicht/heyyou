@@ -1,17 +1,14 @@
 import xml.etree.ElementTree
-from os import path
-from pathlib import Path
 
 
 class Mac:
-    file_path = path.join(str(Path.home()), '.heyyou/mac_vendors.xml')
 
-    def __init__(self):
+    def __init__(self, file_path):
         self.mac_map = {}
-        self.__init_mac_file__()
+        self.__init_mac_file__(file_path)
 
-    def __init_mac_file__(self):
-        root = xml.etree.ElementTree.parse(Mac.file_path).getroot()
+    def __init_mac_file__(self, file_path):
+        root = xml.etree.ElementTree.parse(file_path).getroot()
         for child in root.getchildren():
             mac = str.upper(child.get("mac_prefix"))
             self.mac_map[mac] = child.get("vendor_name")

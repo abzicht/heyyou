@@ -35,7 +35,7 @@ format: {latitude},{longitude}: {country} - {region} - {city} - {postalcode} - {
     parser.add_argument('-c', '--censor', dest='censor', action='store_true',
                         help="censor SSIDs, MAC addresses, and any other sensitive information")
     parser.add_argument('-w', '--wigle-auth', dest='auth_token', type=str, help="the auth code used for the wigle api")
-    parser.add_argument('-m', '--mac-vendors', dest='mac_vendors', action='store_true',
+    parser.add_argument('-m', '--mac-vendors', dest='mac_vendors', type=str,
                         help="use a MAC to brand mapping to print the devices' brands")
     parser.add_argument('-s', '--summary', dest='summary', help="store all results to this json file")
     args = parser.parse_args()

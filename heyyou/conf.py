@@ -19,4 +19,4 @@ class Config:
         Config.summary = args.summary
         Config.censor = Censor(args.censor)
         if args.mac_vendors:
-            Config.mac = Mac()
+            Config.mac = Mac(args.mac_vendors)

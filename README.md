@@ -24,7 +24,7 @@ This tool is intended for demonstration purposes only, showing unaware audiences
 that come with
 
 * easily identifiable SSIDs,
-* leaving a phone's / laptop's WiFi powered on when outside.
+* leaving a phone's / laptop's WiFi powered on when in public.
 
 
 ## Installation
@@ -72,7 +72,7 @@ If you do not want to see your authtoken in the shell history, use some UNIX mag
 ```bash
 cat authtoken.txt | xargs heyyou wlp2s0 -w
 ```
-This, of course, assumes that your exact authtoken is stored in `authtoken.txt`.
+This assumes, of course, that your exact authtoken is stored in `authtoken.txt`.
 
 You find your authtoken [here](https://wigle.net/account).
 
@@ -81,15 +81,15 @@ Wireless devices send their MAC address in most WiFi frames. You can utilize Cis
 determine the brands of the sniffed devices. This helps in identifying which device searched for which SSID.
 
 ```bash
-heyyou -m wlp2s0
+heyyou -m mac_vendors.xml wlp2s0
 ```
 
-This assumes that the file `~/.heyyou/mac_vendors.xml` contains Cisco's MAC vendor list.
+This assumes that the file `./mac_vendors.xml` contains Cisco's MAC vendor list.
 
 If that is not the case, here is how you can obtain it:
 
 ```bash
-curl https://macaddress.io/database/macaddress.io-db-cisco-vendor.xml > ~/.heyyou/mac_vendors.xml
+curl https://macaddress.io/database/macaddress.io-db-cisco-vendor.xml > ./mac_vendors.xml
 ```
 
 ### Demonstration
@@ -98,11 +98,12 @@ be nice to NOT print out the audience's postal addresses and more. For that purp
 to censor the most sensitive information:
 
 ```bash
-heyyou -m -c wlp2s0
+heyyou -m mac_vendors.xml -c wlp2s0 -w <authtoken>
 ```
 
 ### Summary
-The tool prints out all retrieved information _on the fly_. Add the `-s` flag to store the results in a need json file.
+The tool prints out most (not all) retrieved information _on the fly_. Add the `-s` flag to store __all__ information
+in a neat json file.
 ```bash
 heyyou -s heyyou.json wlp2s0
 ```
@@ -113,5 +114,5 @@ The following command automatically determines the WiFi interface to use, the au
 and translates MAC addresses to brand names. All information is printed to stdout, sensitive information
 is censored, a summary is stored as `heyyou.json`.
 ```bash
-heyyou -w $(cat authtoken.txt) -m -c $(iw dev | grep -m 1 Interface | cut -d ' ' -f 2) -s heyyou.json
+heyyou -w $(cat authtoken.txt) -m mac_vendors.xml -c $(iw dev | grep -m 1 Interface | cut -d ' ' -f 2) -s heyyou.json
 ```
