@@ -100,7 +100,7 @@ be nice to NOT print out the audience's postal addresses and more. For that purp
 to censor the most sensitive information:
 
 ```bash
-heyyou -m mac_vendors.xml -c wlp2s0 -w <authtoken>
+heyyou -m mac_vendors.xml -c -w <authtoken> wlp2s0
 ```
 
 ### Summary
@@ -116,5 +116,8 @@ The following command automatically determines the WiFi interface to use, the au
 and translates MAC addresses to brand names. All information is printed to stdout, sensitive information
 is censored, a summary is stored as `heyyou.json`.
 ```bash
-heyyou -w $(cat authtoken.txt) -m mac_vendors.xml -c $(iw dev | grep -m 1 Interface | cut -d ' ' -f 2) -s heyyou.json
+heyyou -w $(cat authtoken.txt) \
+       -m mac_vendors.xml -c \
+       -s heyyou.json \
+       $(iw dev | grep -m 1 Interface | cut -d ' ' -f 2) 
 ```
