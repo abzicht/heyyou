@@ -7,17 +7,17 @@ YOU ARE ALLOWED TO BY THAT PERSON.
 DO NOT USE THIS TOOL IN A CROWDED AREA WHERE YOU ARE UNCERTAIN WHETHER
 YOU COULD UNINTENTIONALLY SCAN FOREIGN DEVICES.
 THIS TOOL MERELY IS A DEMONSTRATION OF THE POSSIBILITIES THAT COME WITH
-THE KNOWLEDGE OF SSIDs.
+THE KNOWLEDGE OF SSIDS.
 YOU ARE COMPLETELY LIABLE FOR ANY (LEGAL) CONSEQUENCES WHEN USING THIS TOOL.
-THE AUTHOR CAN NOT BE HELD RESPONSIBLE NOR CHARGED IN ANY WAY FOR YOUR ACTIONS AND
+THE AUTHOR CAN NEITHER BE HELD RESPONSIBLE NOR CHARGED IN ANY WAY FOR YOUR ACTIONS AND
 YOUR USE OF THIS TOOL. 
 
-THIS TOOL IS OPEN SOURCE - THIS MEANS THAT YOU KNOW WHAT YOU DO WHEN RUNNING
+THIS TOOL IS OPEN SOURCE - THIS MEANS THAT YOU KNOW WHAT YOU ARE DOING WHEN RUNNING
 THIS TOOL.
 
 FOR MORE INFORMATION, READ THE [LICENSE](./LICENSE).
 
-# heyyou
+# hey, you!
 __heyyou__ is a tool for sniffing WiFi probe requests, filtering out
 the requested SSIDs and determining the physical locations of the access points
 those SSIDs map to.
@@ -42,7 +42,7 @@ python3 setup.py install
 * `ip`, `iw`, need to be installed
 * You need an auth code for the [Wigle](https://wigle.net) api
 
-## Running
+## Running heyyou
 
 ### Pure sniff
 Only sniff for SSIDs, do not search for physical locations:
@@ -119,5 +119,32 @@ is censored, a summary is stored as `heyyou.json`.
 heyyou -w $(cat authtoken.txt) \
        -m mac_vendors.xml -c \
        -s heyyou.json \
-       $(iw dev | grep -m 1 Interface | cut -d ' ' -f 2) 
+       $(iw dev | grep -m 1 Interface | cut -d ' ' -f 2)
 ```
+
+# Output
+As soon as a device searching for WiFi is found, its MAC address and SSID it searches for are output to stdout.  
+Assuming the MAC address is `00:00:00:00:00:00` and the AP's SSID is `MyWiFi`, the output looks like this:
+
+```text
+00:00:00:00:00:00 -> MyWiFi
+```
+
+When a MAC-Vendor list was specified and the MAC address resolves to a valid vendor, the output also contains
+the vendor's name:
+
+```text
+00:00:00:00:00:00 ({vendor}) -> MyWiFi
+```
+
+When using the Wigle API functionality, Wigle's response to the SSID is added.  
+Assuming that Wigle found `30` matches for the SSID `MyWiFi`, the number of entries would
+be appended to the SSID and all 30 entries would be appended line by line.
+
+```text
+00:00:00:00:00:00 -> MyWiFi (30 results)
+    {latitude},{longitude}: {country} - {region} - {city} - {postalcode} - {street} - {house number} ({last update})
+```
+
+Wigle limits the number of results being sent for one request. Only the top 100 entries are returned and therefore
+there are never more than 100 rows being printed out for one SSID.
